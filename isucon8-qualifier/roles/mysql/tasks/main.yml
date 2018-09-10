@@ -1,0 +1,71 @@
+---
+
+# install mysqld_5.6
+- name:  レポジトリの登録
+  yum:
+    name: http://dev.mysql.com/get/mysql57-community-release-el6-7.noarch.rpm
+    state: present
+
+- name: mysqld のインストール
+  yum:
+    name: "{{ item }}"
+    enablerepo: mysql56-community
+    disablerepo: mysql57-community
+    state: present
+  with_items:
+    - mysql-server
+    - mysql-devel
+
+- name: mysqld 起動・自動起動設定
+  service:
+    name=mysqld
+    state=started
+    enabled=yes
+
+- name: Ansible 用 mysql モジュールで必要なパッケージのインストール
+  yum:
+    name: MySQL-python
+    state: present
+
+- shell: "/home/isucon/xbuild/go-install -f 1.9 /home/isucon/local/go"
+  args:
+    creates: /home/isucon/local/go
+  become_user: isucon
+
+- shell: |
+    export PATH="$HOME/local/go/bin:$HOME/go/bin:$PATH"
+    go get github.com/constabulary/gb/...
+    cd /home/isucon/isubata/bench
+    gb vendor restore
+    make
+    ./bin/gen-initial-dataset
+  args:
+    creates: /home/isucon/isubata/bench/isucon7q-initial-dataset.sql.gz
+  become_user: isucon
+
+- shell: "/home/isucon/isubata/db/init.sh"
+
+- mysql_user:
+    name: isucon
+    password: isucon
+    host: "%"
+    priv: "*.*:ALL"
+    state: present
+
+- mysql_user:
+    name: isucon
+    password: isucon
+    priv: "*.*:ALL"
+    state: present
+
+- shell: "zcat /home/isucon/isubata/bench/isucon7q-initial-dataset.sql.gz | mysql --default-character-set=utf8 --max_allowed_packet=512M isubata"
+
+- file:
+    path: /home/isucon/isubata/bench/isucon7q-initial-dataset.sql.gz
+    state: absent
+
+- copy:
+    src: /home/isucon/isubata/files/db/mysqld.cnf
+    dest: /etc/my.cnf
+    remote_src: yes
+  notify: restart mysqld

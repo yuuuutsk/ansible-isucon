@@ -1,0 +1,35 @@
+---
+
+- yum:
+    state: present
+    name: "{{item}}"
+  with_items:
+    - git
+    - sudo
+    - vim
+
+- user:
+    name: isucon
+
+- copy:
+    src: 90-isucon-user
+    dest: /etc/sudoers.d/90-isucon-user
+    owner: root
+    group: root
+    mode: 0640
+
+- git:
+    repo: 'git@github.com:yuuuutsk/isucon8-qualify.git'
+    dest: /home/isucon/isubata
+    update: no
+
+- file:
+    path: /home/isucon/isubata
+    owner: isucon
+    group: isucon
+    recurse: yes
+
+- git:
+    repo: 'https://github.com/tagomoris/xbuild.git'
+    dest: /home/isucon/xbuild
+  become_user: isucon

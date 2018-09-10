@@ -1,0 +1,19 @@
+---
+
+- yum:
+    state: present
+    name: "{{item}}"
+  with_items:
+    - nginx
+
+- copy:
+    src: default.conf
+    dest: /etc/nginx/conf.d/default.conf
+    owner: root
+    group: root
+    mode: 0640
+
+- service:
+    name: nginx
+    enabled: yes
+    state: started
