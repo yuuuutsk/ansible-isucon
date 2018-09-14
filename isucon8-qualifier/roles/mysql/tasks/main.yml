@@ -43,6 +43,15 @@
     creates: /home/isucon/isubata/bench/isucon7q-initial-dataset.sql.gz
   become_user: isucon
 
+- copy:
+    src: mysqld.cnf
+    dest: /etc/my.cnf
+
+- service:
+    name: mysqld
+    enabled: yes
+    state: started
+
 - shell: "/home/isucon/isubata/db/init.sh"
 
 - mysql_user:
@@ -63,9 +72,3 @@
 - file:
     path: /home/isucon/isubata/bench/isucon7q-initial-dataset.sql.gz
     state: absent
-
-- copy:
-    src: /home/isucon/isubata/files/db/mysqld.cnf
-    dest: /etc/my.cnf
-    remote_src: yes
-  notify: restart mysqld
