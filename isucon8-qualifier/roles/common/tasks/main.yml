@@ -29,6 +29,8 @@
     group: isucon
     recurse: yes
 
+- shell: 'chmod 0755 /home/isucon'
+
 - git:
     repo: 'https://github.com/tagomoris/xbuild.git'
     dest: /home/isucon/xbuild
