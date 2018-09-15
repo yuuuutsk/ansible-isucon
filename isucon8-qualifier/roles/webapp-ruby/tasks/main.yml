@@ -15,7 +15,7 @@
     creates: /home/isucon/local/ruby/bin/bundle
   become_user: isucon
 
-- shell: PATH="/home/isucon/local/ruby/bin:$PATH" ./setup.sh
+- shell: /home/isucon/local/ruby/bin/bundle install
   args:
     chdir: /home/isucon/isubata/webapp/ruby
   become_user: isucon
