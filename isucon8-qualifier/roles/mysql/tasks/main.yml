@@ -52,8 +52,6 @@
     enabled: yes
     state: started
 
-- shell: "/home/isucon/isubata/db/init.sh"
-
 - mysql_user:
     name: isucon
     password: isucon
@@ -66,6 +64,8 @@
     password: isucon
     priv: "*.*:ALL"
     state: present
+
+- shell: "/home/isucon/isubata/db/init.sh"
 
 - shell: "zcat /home/isucon/isubata/bench/isucon8q-initial-dataset.sql.gz | mysql --default-character-set=utf8 --max_allowed_packet=512M isubata"
 
