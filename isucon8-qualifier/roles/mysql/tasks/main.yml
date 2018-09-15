@@ -67,8 +67,8 @@
     priv: "*.*:ALL"
     state: present
 
-- shell: "zcat /home/isucon/isubata/bench/isucon7q-initial-dataset.sql.gz | mysql --default-character-set=utf8 --max_allowed_packet=512M isubata"
+- shell: "zcat /home/isucon/isubata/bench/isucon8q-initial-dataset.sql.gz | mysql --default-character-set=utf8 --max_allowed_packet=512M isubata"
 
 - file:
-    path: /home/isucon/isubata/bench/isucon7q-initial-dataset.sql.gz
+    path: /home/isucon/isubata/bench/isucon8q-initial-dataset.sql.gz
     state: absent

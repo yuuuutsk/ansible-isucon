@@ -7,6 +7,7 @@
     - git
     - sudo
     - vim
+    - tmux
 
 - user:
     name: isucon
