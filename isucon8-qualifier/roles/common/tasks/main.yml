@@ -33,6 +33,8 @@
 
 - shell: 'chmod 0755 /home/isucon'
 
+- shell: 'sudo setenforce 0'
+
 - git:
     repo: 'https://github.com/tagomoris/xbuild.git'
     dest: /home/isucon/xbuild
