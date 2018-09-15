@@ -7,6 +7,7 @@
     - git
     - sudo
     - vim
+    - tmux
 
 - user:
     name: isucon
@@ -21,6 +22,7 @@
 - git:
     repo: 'git@github.com:yuuuutsk/isucon8-qualify.git'
     dest: /home/isucon/isubata
+    version: isucon8
     update: no
 
 - file:
@@ -30,6 +32,8 @@
     recurse: yes
 
 - shell: 'chmod 0755 /home/isucon'
+
+- shell: 'sudo setenforce 0'
 
 - git:
     repo: 'https://github.com/tagomoris/xbuild.git'
