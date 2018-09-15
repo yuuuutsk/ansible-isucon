@@ -22,7 +22,6 @@
 - git:
     repo: 'git@github.com:yuuuutsk/isucon8-qualify.git'
     dest: /home/isucon/isubata
-    version: isucon8
     update: no
 
 - file:
